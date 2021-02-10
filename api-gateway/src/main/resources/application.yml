@@ -1,0 +1,47 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: oAuth
+          uri: lb://oAuth
+          predicates:
+           - Path= /oauth/**
+
+        - id: course
+          uri: lb://course
+          predicates:
+           - Path=/courses/**
+
+        - id: module
+          uri: lb://module
+          predicates:
+            - Path=/modules/**
+
+        - id: subscription
+          uri: lb://subscription
+          predicates:
+            - Path=/subscriptions/**
+
+        - id: schedule
+          uri: lb://schedule
+          predicates:
+              - Path=/schedules/**
+
+        - id: attendance
+          uri: lb://attendance
+          predicates:
+              - Path=/attendances/**
+
+        - id: assessment
+          uri: lb://assessment
+          predicates:
+              - Path=/assessments/**
+
+        - id: submission
+          uri: lb://submission
+          predicates:
+              - Path=/submissions/**
