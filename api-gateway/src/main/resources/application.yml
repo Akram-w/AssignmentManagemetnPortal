@@ -49,4 +49,4 @@ spring:
         - id: stakeholder
             uri: lb://stakeholder
             predicates:
-              - Path=/stakeholder/**
+              - Path=/register/**
