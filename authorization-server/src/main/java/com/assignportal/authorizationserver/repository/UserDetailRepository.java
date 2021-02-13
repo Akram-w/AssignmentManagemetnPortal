@@ -1,6 +1,6 @@
 package com.assignportal.authorizationserver.repository;
 
-import com.assignportal.authorizationserver.model.User;
+import model.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

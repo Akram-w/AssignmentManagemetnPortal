@@ -1,6 +1,7 @@
-package com.assignportal.authorizationserver.model;
+package model.auth;
 
 import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;

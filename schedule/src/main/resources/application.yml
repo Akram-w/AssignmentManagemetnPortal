@@ -1,1 +1,8 @@
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:8080/oauth/check_token
+    client:
+      client-id: mobile
+      client-secret: pin
 

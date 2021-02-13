@@ -1,5 +1,6 @@
 package com.assignportal.attendance.servicer;
 
+import com.assignportal.attendance.config.AccessToken;
 import com.assignportal.attendance.repository.AttendanceRepository;
 import model.attendance.Attendance;
 import model.attendance.AttendanceId;
@@ -12,7 +13,8 @@ import model.responseModels.AttendanceWithCourse;
 import model.responseModels.CourseWithAttendanceList;
 import model.responseModels.CoursesWithModule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,10 +25,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class AttendanceServiceImpl<id, list> implements AttendanceService {
@@ -92,11 +91,17 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
     }
 
     private String isActiveCourse(int courseId) throws ExecutionException, InterruptedException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity = new HttpEntity<>(headers);
         CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
-                    return restTemplate.getForObject(uri, String.class);
+                    return restTemplate
+                            .exchange(uri, HttpMethod.GET, entity, String.class)
+                            .getBody();
                 }, () -> {
                     System.out.println("inside not found");
                     return "NOT-FOUND";
@@ -148,11 +153,17 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
     }
 
     private CoursesWithModule getCourseById(int courseId) throws ExecutionException, InterruptedException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity = new HttpEntity<>(headers);
         CommonHystrixCommand<CoursesWithModule> courseByIdHystrixCommand =
                 new CommonHystrixCommand<CoursesWithModule>("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/" + courseId;
-                    return restTemplate.getForObject(uri, CoursesWithModule.class);
+                    return restTemplate
+                            .exchange(uri,HttpMethod.GET,entity, CoursesWithModule.class)
+                            .getBody();
                 }, () ->
                 {
                     System.out.println("not");
@@ -185,7 +196,7 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
                         return new AttendanceWithCourse(attendance,
                                 new CoursesWithModule(courseBiFunction
                                         .apply(attendance.getAttendanceId().getCourseId()
-                                        , courseByIdList), null));
+                                                , courseByIdList), null));
                     }).collect(Collectors.toList());
         }
         return null;
@@ -197,11 +208,18 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
 
     private Course[] getCourseByIdList(List<Integer> distinctCourseIdList)
             throws ExecutionException, InterruptedException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity = new HttpEntity<>(distinctCourseIdList,headers);
+
         CommonHystrixCommand<Course[]> courseByIdHystrixCommand =
                 new CommonHystrixCommand<Course[]>("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/?isAttendance=true";
-                    return restTemplate.postForObject(uri, distinctCourseIdList, Course[].class);
+                    return restTemplate
+                            .exchange(uri,HttpMethod.POST,entity, Course[].class)
+                            .getBody();
                 }, () ->
                 {
                     System.out.println("inthis");

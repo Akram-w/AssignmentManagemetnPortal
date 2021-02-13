@@ -6,8 +6,8 @@ import model.schedule.Schedule;
 
 @Data
 public class ScheduleWithCourse {
-    Schedule schedule;
-    Course course;
+    private Schedule schedule;
+    private Course course;
 
     public ScheduleWithCourse() {
     }

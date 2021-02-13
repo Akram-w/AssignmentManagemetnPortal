@@ -7,6 +7,7 @@ import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +24,7 @@ public class SubmissionController {
     SubmissionService submissionService;
 
     @PostMapping(value = "/submissions",produces = "application/json", consumes = "multipart/form-data")
+    @PreAuthorize("hasAuthority('create_submission')")
     public Submission saveSubmission(@RequestPart("file")MultipartFile file
             ,@RequestPart("data")String submitData)
             throws IOException, InterruptedException, ExecutionException {
@@ -32,6 +34,7 @@ public class SubmissionController {
     }
 
     @GetMapping(value = "/submissions/{id}")
+    @PreAuthorize("hasAuthority('read_submission')")
     public ResponseEntity<Submission> getSubmissionById(@PathVariable int id){
         Submission byId = submissionService.getSubmissionById(id);
 
@@ -42,6 +45,7 @@ public class SubmissionController {
     }
 
     @GetMapping(value = "/submissions/{id}/download")
+    @PreAuthorize("hasAuthority('read_submission')")
     public ResponseEntity downloadSubmission(@PathVariable int id) throws FileNotFoundException {
         URL url=submissionService.download(id);
         if(url!=null){
@@ -52,10 +56,12 @@ public class SubmissionController {
     }
 
     @GetMapping(value = "/submissions",params = "assessmentId")
+    @PreAuthorize("hasAuthority('read_submission')")
     public List<Submission> getSubmissionByAssessmentId(@RequestParam(value = "assessmentId") int id){
         return submissionService.getSubmissionAssessmentId(id);
     }
     @GetMapping(value = "/submissions",params ={"assessmentId","studentName"})
+    @PreAuthorize("hasAuthority('read_submission')")
     public ResponseEntity<Submission> getStudentSubmission(@RequestParam(value = "assessmentId") int id,
                                                            @RequestParam(value = "studentName")String name){
         Submission submission=submissionService.getStudentSubmission(id,name);
@@ -67,6 +73,7 @@ public class SubmissionController {
     }
 
     @DeleteMapping(value = "/submissions/{id}")
+    @PreAuthorize("hasAuthority('delete_submission')")
     public ResponseEntity<String> deleteSubmission(@PathVariable int id){
         String delete=submissionService.delete(id);
 
@@ -77,6 +84,7 @@ public class SubmissionController {
     }
 
     @PutMapping(value = "/submissions/{id}", produces = "application/json", consumes = "multipart/form-data")
+    @PreAuthorize("hasAuthority('update_submission')")
     public ResponseEntity<Submission> updateSubmission(@PathVariable int id,
                                                        @RequestPart(value = "file",required = false) MultipartFile file,
                                                        @RequestPart("data") String submitData)

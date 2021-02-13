@@ -1,5 +1,6 @@
 package com.assignportal.schedule.servicer;
 
+import com.assignportal.schedule.config.AccessToken;
 import com.assignportal.schedule.repository.ScheduleRepository;
 import model.courses.Course;
 import model.exception.CourseAlreadyScheduled;
@@ -11,6 +12,9 @@ import model.responseModels.ScheduleWithCourse;
 import model.responseModels.SubscriptionsWithCourses;
 import model.schedule.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -64,11 +68,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     private String isActiveCourse(int courseId) throws ExecutionException, InterruptedException {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+        HttpEntity entity=new HttpEntity(headers);
         CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
-                    return restTemplate.getForObject(uri, String.class);
+                    return restTemplate
+                            .exchange(uri, HttpMethod.GET,entity, String.class)
+                            .getBody();
                 }, () -> {
                     System.out.println("inside not found");
                     return "NOT-FOUND";
@@ -109,11 +118,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     private CoursesWithModule getCourseById(int courseId) throws ExecutionException, InterruptedException {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+        HttpEntity entity=new HttpEntity(headers);
         CommonHystrixCommand<CoursesWithModule> courseHystrixCommand =
                 new CommonHystrixCommand<CoursesWithModule>("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/" + courseId;
-                    return restTemplate.getForObject(uri, CoursesWithModule.class);
+                    return restTemplate
+                            .exchange(uri,HttpMethod.GET,entity, CoursesWithModule.class)
+                            .getBody();
                 }, () -> {
                     return new CoursesWithModule();
                 });
@@ -144,12 +158,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private SubscriptionsWithCourses[] getSubscriptionListByStudentName(String name)
             throws ExecutionException, InterruptedException {
-
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+        HttpEntity entity=new HttpEntity(headers);
         CommonHystrixCommand<SubscriptionsWithCourses[]> courseHystrixCommand =
                 new CommonHystrixCommand<SubscriptionsWithCourses[]>("default", () ->
                 {
                     String uri = "http://localhost:8080/subscriptions/?studentName=" + name;
-                    return restTemplate.getForObject(uri, SubscriptionsWithCourses[].class);
+                    return restTemplate
+                            .exchange(uri,HttpMethod.GET,entity, SubscriptionsWithCourses[].class)
+                            .getBody();
                 }, () -> {
                     return new SubscriptionsWithCourses[0];
                 });
@@ -186,12 +204,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private Course[] getSubscriptionListByTutorName(String name)
             throws ExecutionException, InterruptedException {
-
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+        HttpEntity entity=new HttpEntity(headers);
         CommonHystrixCommand<Course[]> courseHystrixCommand =
                 new CommonHystrixCommand<Course[]>("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/?tutorName=" + name;
-                    return restTemplate.getForObject(uri, Course[].class);
+                    return restTemplate
+                            .exchange(uri,HttpMethod.GET,entity, Course[].class)
+                            .getBody();
                 }, () -> {
                     return new Course[0];
                 });

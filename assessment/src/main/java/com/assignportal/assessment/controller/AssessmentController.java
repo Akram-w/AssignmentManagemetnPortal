@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,7 @@ public class AssessmentController {
     AssessmentService assessmentService;
 
     @PostMapping(value = "/assessments", produces = "application/json", consumes = "multipart/form-data")
+    @PreAuthorize("hasAuthority('create_assessments')")
     public Assessment saveAssessment(@RequestPart("file") MultipartFile file,
                                      @RequestPart("data") String course) throws IOException {
         System.out.println(course);
@@ -30,6 +32,7 @@ public class AssessmentController {
     }
 
     @GetMapping(value = "/assessments/{id}")
+    @PreAuthorize("hasAuthority('read_assessments')")
     public ResponseEntity<Assessment> getAssessment(@PathVariable int id) {
         Assessment assessment = assessmentService.getAssessmentById(id);
 
@@ -40,6 +43,7 @@ public class AssessmentController {
     }
 
     @GetMapping(value = "/assessments/{id}/download")
+    @PreAuthorize("hasAuthority('read_assessments')")
     public ResponseEntity downloadAssessment(@PathVariable int id) throws FileNotFoundException {
         URL download = assessmentService.download(id);
         if (download != null) {
@@ -50,15 +54,18 @@ public class AssessmentController {
     }
 
     @GetMapping(value = "/assessments",params = "modelId")
+    @PreAuthorize("hasAuthority('read_assessments')")
     public List<Assessment> getAllAssessmentsByModuleId(@RequestParam(value = "modelId") int id){
         return assessmentService.getAssessmentByModuleId(id);
     }
     @GetMapping(value = "/assessments/{id}",params = "submittingDate")
+    @PreAuthorize("hasAuthority('read_assessments')")
     public boolean checkDeadline(@PathVariable int id,
             @RequestParam(name = "submittingDate")String date){
         return assessmentService.checkDeadLine(id,date);
     }
     @DeleteMapping(value = "/assessments/{id}")
+    @PreAuthorize("hasAuthority('delete_assessments')")
     public ResponseEntity<String> deleteAssessment(@PathVariable int id){
         String delete = assessmentService.delete(id);
 
@@ -68,6 +75,7 @@ public class AssessmentController {
         return ResponseEntity.status(HttpStatus.OK).body("Assessment deleted");
     }
     @PutMapping(value = "/assessments/{id}", produces = "application/json", consumes = "multipart/form-data")
+    @PreAuthorize("hasAuthority('update_assessments')")
     public ResponseEntity<Assessment> updateAssessment(@PathVariable int id,
                                                        @RequestPart(value = "file",required = false) MultipartFile file,
                                        @RequestPart("data") String course) throws IOException {

@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class ScheduleController {
         @RequestBody Schedule
      */
     @PostMapping(value = "/schedules")
+    @PreAuthorize("hasAuthority('create_schedules')")
     public Schedule saveSchedule(@RequestBody Schedule schedule)
             throws ExecutionException, InterruptedException {
         Schedule savedSchedule = scheduleService.save(schedule, "update");
@@ -38,6 +40,7 @@ public class ScheduleController {
         @RequestBody Schedule
      */
     @PutMapping(value = "/schedules/{id}")
+    @PreAuthorize("hasAuthority('update_schedules')")
     public Schedule updateSchedule(@RequestBody Schedule subscription,
                                    @PathVariable int id)
             throws ExecutionException, InterruptedException {
@@ -52,6 +55,7 @@ public class ScheduleController {
        @PathVariable scheduleId
     */
     @DeleteMapping(value = "/schedules/{id}")
+    @PreAuthorize("hasAuthority('delete_schedules')")
     public ResponseEntity deleteSubscription(@PathVariable int id) {
         try {
             scheduleService.delete(id);
@@ -65,6 +69,7 @@ public class ScheduleController {
        Endpoint to get All schedule
     */
     @GetMapping(value = "/schedules")
+    @PreAuthorize("hasAuthority('read_schedules')")
     public List<Schedule> getAllSchedule() {
         return scheduleService.getAllSubscriptions();
     }
@@ -74,6 +79,7 @@ public class ScheduleController {
         @PathVariable scheduleId
      */
     @GetMapping(value = "/schedules/{id}")
+    @PreAuthorize("hasAuthority('read_schedules')")
     public ResponseEntity<ScheduleWithCourse> getScheduleById(@PathVariable int id)
             throws ExecutionException, InterruptedException {
         ScheduleWithCourse scheduleById = scheduleService.getScheduleById(id);
@@ -91,6 +97,7 @@ public class ScheduleController {
         @RequestParam role (student or tutor)
      */
     @GetMapping(value = "/schedules",params = {"currentDate","name","role"})
+    @PreAuthorize("hasAuthority('read_schedules')")
     public List<Schedule> getScheduleByMonth (
             @RequestParam (value = "currentDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
                                                   @RequestParam(value = "name")String name,

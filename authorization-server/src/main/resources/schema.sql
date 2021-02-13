@@ -34,6 +34,8 @@ create table if not exists  user (
   username varchar(100) not null,
   password varchar(1024) not null,
   email varchar(1024) not null,
+  instituteName varchar(1024),
+  userTypeStatus tinyint(4),
   enabled tinyint(4) not null,
   accountNonExpired tinyint(4) not null,
   credentialsNonExpired tinyint(4) not null,
@@ -55,10 +57,12 @@ create table  if not exists permission_role (
 
 
 create table if not exists role_user (
+id int(11) not null auto_increment,
   role_id int(11) default null,
   user_id int(11) default null,
   key role_id (role_id),
   key user_id (user_id),
+  primary key(id),
   constraint role_user_ibfk_1 foreign key (role_id) references role (id),
   constraint role_user_ibfk_2 foreign key (user_id) references user (id)
 ) engine=innodb ;

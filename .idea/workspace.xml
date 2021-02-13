@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9e22be1a-56aa-41fb-8f07-cd4d3059707c" name="Default Changelist" comment="" />
+    <list default="true" id="9e22be1a-56aa-41fb-8f07-cd4d3059707c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/config/AccessToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/Controller/RegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/exceptions/ControlAdvisor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/model/RegisterUserModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/model/RoleUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/repository/UserRoleRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/service/RegisterService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/service/RegisterServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/src/main/java/model/exception/CourseAlreadyExists.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/exceptions/ControlAdvisor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/courses/src/main/java/config/AccessToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/config/AccessToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/config/AccessToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/config/AccessToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assessment/src/main/java/com/assignportal/assessment/AssessmentApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/assessment/src/main/java/com/assignportal/assessment/AssessmentApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assessment/src/main/java/com/assignportal/assessment/controller/AssessmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/assessment/src/main/java/com/assignportal/assessment/controller/AssessmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assessment/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/assessment/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/AttendanceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/AttendanceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/controller/AttendanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/controller/AttendanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/servicer/AttendanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/src/main/java/com/assignportal/attendance/servicer/AttendanceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attendance/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/attendance/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/AuthorizationServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/AuthorizationServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/model/AuthUserDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/model/AuthUserDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/repository/UserDetailRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/authorization-server/src/main/java/com/assignportal/authorizationserver/repository/UserDetailRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authorization-server/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/authorization-server/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authorization-server/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/authorization-server/src/main/resources/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/model/hystix/CommonHystrixCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/model/hystix/CommonHystrixCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/model/responseModels/ScheduleWithCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/model/responseModels/ScheduleWithCourse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/courses/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/CoursesApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/CoursesApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/controllers/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/controllers/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/repository/CourseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/repository/CourseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/servicer/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/servicer/CourseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/servicer/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/courses/src/main/java/com/assignportal/courses/servicer/CourseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/courses/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/ScheduleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/ScheduleApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/exceptions/ControlAdvisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/exceptions/ControlAdvisor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/servicer/ScheduleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/schedule/src/main/java/com/assignportal/schedule/servicer/ScheduleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schedule/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/schedule/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subjects/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/subjects/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/SubjectsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/SubjectsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/controller/ModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/controller/ModuleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/servicer/ModuleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/subjects/src/main/java/com/assignportal/subjects/servicer/ModuleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subjects/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/subjects/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/SubmissionApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/SubmissionApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/controller/SubmissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/controller/SubmissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/servicer/SubmissionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/submission/src/main/java/com/assignportal/submission/servicer/SubmissionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/submission/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subscription/src/main/java/com/assignportal/subscription/controller/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/subscription/src/main/java/com/assignportal/subscription/controller/SubscriptionController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,5 +95,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

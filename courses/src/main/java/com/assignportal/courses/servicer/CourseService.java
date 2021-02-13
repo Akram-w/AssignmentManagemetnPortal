@@ -20,4 +20,6 @@ public interface CourseService {
     List<SubscriptionsWithCourses> getAllCoursesBySubscriptionList(List<Subscription> subscriptionList) throws ExecutionException, InterruptedException;
 
     List<Course> getAllCoursesByIdList(List<Integer> subscriptionList);
+
+    List<Course> getAllActiveCoursesByTutor(String name, boolean status);
 }

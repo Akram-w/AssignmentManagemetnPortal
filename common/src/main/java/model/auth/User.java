@@ -1,4 +1,4 @@
-package com.assignportal.authorizationserver.model;
+package model.auth;
 
 import lombok.Data;
 
@@ -15,12 +15,16 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "username")
+    @Column(name = "username",unique = true,nullable = false)
     private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
     private String email;
+    @Column(name = "instituteName")
+    private String instituteName;
+    @Column(name = "userTypeStatus")
+    private boolean typeStatus;
     @Column(name = "enabled")
     private boolean enabled;
     @Column(name = "accountNonExpired")
@@ -41,6 +45,8 @@ public class User implements Serializable {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
+        this.instituteName=user.getInstituteName();
+        this.typeStatus=user.isTypeStatus();
         this.enabled = user.isEnabled();
         this.accountNonExpired = user.isAccountNonExpired();
         this.credentialsNonExpired = user.isCredentialsNonExpired();

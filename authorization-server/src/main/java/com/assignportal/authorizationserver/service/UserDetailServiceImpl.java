@@ -1,8 +1,8 @@
 package com.assignportal.authorizationserver.service;
 
-import com.assignportal.authorizationserver.model.AuthUserDetail;
-import com.assignportal.authorizationserver.model.User;
 import com.assignportal.authorizationserver.repository.UserDetailRepository;
+import model.auth.AuthUserDetail;
+import model.auth.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;

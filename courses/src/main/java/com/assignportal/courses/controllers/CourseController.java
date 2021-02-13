@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -26,8 +27,10 @@ public class CourseController {
         @RequestBody Course
      */
     @PostMapping(value = "/courses")
+    @PreAuthorize("hasAuthority('create_courses')")
     public Course saveCourse(@RequestBody Course course) {
-        return courseService.save(course);
+       return courseService.save(course);
+
     }
 
     /*
@@ -36,6 +39,7 @@ public class CourseController {
         @RequestBody Course
      */
     @PutMapping(value = "/courses/{id}")
+    @PreAuthorize("hasAuthority('update_courses')")
     public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable int id) {
         Course updatedCourse = courseService.update(course, id);
         return ResponseEntity.ok().body(updatedCourse);
@@ -47,6 +51,7 @@ public class CourseController {
         @RequestParam boolean status
      */
     @PutMapping(value = "/courses/{id}", params = "status")
+    @PreAuthorize("hasAuthority('update_courses')")
     public ResponseEntity<Course> updateCourseStatus(@PathVariable int id,
                                              @RequestParam(value = "status") boolean status)
             throws ExecutionException, InterruptedException {
@@ -64,6 +69,7 @@ public class CourseController {
         @PathVariable courseId
      */
     @DeleteMapping(value = "/courses/{id}")
+    @PreAuthorize("hasAuthority('delete_courses')")
     public ResponseEntity<String> deleteCourse(@PathVariable int id)
             throws ExecutionException, InterruptedException {
 
@@ -80,6 +86,7 @@ public class CourseController {
         Endpoint to get All courses
      */
     @GetMapping(value = "/courses")
+    @PreAuthorize("hasAuthority('read_courses')")
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();
     }
@@ -90,6 +97,7 @@ public class CourseController {
         @RequestBody List<Subscription>
      */
     @PostMapping(value = "/courses", params = "isSubscriptionList")
+    @PreAuthorize("hasAuthority('read_courses')")
     public List<SubscriptionsWithCourses> getAllCoursesBySubscriptionList(
             @RequestBody List<Subscription> subscriptionList,
             @RequestParam(value = "isSubscriptionList") boolean status)
@@ -107,6 +115,7 @@ public class CourseController {
        @RequestBody List<Subscription>
     */
     @PostMapping(value = "/courses", params = "isAttendance")
+    @PreAuthorize("hasAuthority('read_courses')")
     public List<Course> getAllCoursesByIdList(
             @RequestBody Integer[] subscriptionList,
             @RequestParam(value = "isAttendance") boolean status)
@@ -129,6 +138,7 @@ public class CourseController {
         @PathVariable courseId
      */
     @GetMapping(value = "/courses/{id}")
+    @PreAuthorize("hasAuthority('read_courses')")
     public ResponseEntity<CoursesWithModule> getCourseById(@PathVariable int id)
             throws ExecutionException, InterruptedException {
         CoursesWithModule courseById = courseService.getCourseById(id);
@@ -144,6 +154,7 @@ public class CourseController {
         @PathVariable courseId
      */
     @GetMapping(value = "/courses/{id}/isActive")
+    @PreAuthorize("hasAuthority('read_courses')")
     public String checkCourseIsActive(@PathVariable int id)
             throws ExecutionException, InterruptedException {
 
@@ -161,8 +172,19 @@ public class CourseController {
         @RequestParam tutorName
      */
     @GetMapping(value = "/courses", params = "tutorName")
+    @PreAuthorize("hasAuthority('read_courses')")
     public List<Course> findAllCourseByTutorName(@RequestParam(value = "tutorName") String tutorName) {
         List<Course> allCoursesByTutor = courseService.getAllCoursesByTutor(tutorName);
         return allCoursesByTutor;
+    }
+    /*
+        Endpoint to get all courses by tutor name and status
+        @RequestParam tutorName
+     */
+    @GetMapping(value = "/courses",params = {"tutorName","status"})
+    @PreAuthorize("hasAuthority('read_courses')")
+    public List<Course> findAllActiveCoursesByTutorName(@RequestParam(value = "tutorName")String name,
+                                                        @RequestParam(value = "status")boolean status){
+        return courseService.getAllActiveCoursesByTutor(name,status);
     }
 }

@@ -1,8 +1,5 @@
 package com.assignportal.subscription.servicer;
 
-import model.exception.AlreadyRegisteredToCourse;
-import model.exception.CourseNotActive;
-import model.exception.CourseNotExists;
 import model.responseModels.CourseWithSubscriptionList;
 import model.responseModels.SubscriptionsWithCourses;
 import model.subscription.Subscription;

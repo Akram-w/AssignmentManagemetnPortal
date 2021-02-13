@@ -1,5 +1,6 @@
 package com.assignportal.submission.servicer;
 
+import com.assignportal.submission.config.AccessToken;
 import com.assignportal.submission.repository.SubmissionRepository;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -172,10 +176,17 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     private Boolean checkDeadLine(String submissionDate, int assessmentId)
             throws ExecutionException, InterruptedException {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity=new HttpEntity(headers);
+
         CommonHystrixCommand<Boolean> deadLineHystrix = new CommonHystrixCommand<Boolean>("default",
                 () -> {
                     String uri = "http://localhost:8080/assessments/" + assessmentId + "?submittingDate=" + submissionDate;
-                    return restTemplate.getForObject(uri, boolean.class);
+                    return restTemplate
+                            .exchange(uri, HttpMethod.GET,entity, boolean.class)
+                            .getBody();
                 },
                 () -> {
                     System.out.println("failed");

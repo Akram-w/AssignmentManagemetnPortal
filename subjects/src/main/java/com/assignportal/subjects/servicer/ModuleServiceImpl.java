@@ -1,11 +1,15 @@
 package com.assignportal.subjects.servicer;
 
+import com.assignportal.subjects.config.AccessToken;
 import com.assignportal.subjects.repository.ModuleRepository;
 import model.exception.CourseNotActive;
 import model.exception.CourseNotExists;
 import model.hystix.CommonHystrixCommand;
 import model.modules.Module;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,16 +48,24 @@ public class ModuleServiceImpl implements ModuleService {
 
     private String isActiveCourse(int courseId) throws ExecutionException, InterruptedException {
 
-        CommonHystrixCommand<String> statusHystixCommand = new CommonHystrixCommand<String>
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity=new HttpEntity(headers);
+        CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
+
+
                     String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
-                    return restTemplate.getForObject(uri, String.class);
+                    return restTemplate
+                            .exchange(uri, HttpMethod.GET,entity, String.class)
+                            .getBody();
                 }, () ->
                 {
                     return "NOT-FOUND";
                 });
-        Future<String> statusFuture = statusHystixCommand.queue();
+        Future<String> statusFuture = statusHystrixCommand.queue();
         return statusFuture.get();
     }
 

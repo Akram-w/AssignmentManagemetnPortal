@@ -1,5 +1,6 @@
 package com.assignportal.subscription.servicer;
 
+import com.assignportal.subscription.config.AccessToken;
 import com.assignportal.subscription.repository.SubscriptionRepository;
 import model.exception.AlreadyRegisteredToCourse;
 import model.exception.CourseNotActive;
@@ -10,8 +11,12 @@ import model.responseModels.CoursesWithModule;
 import model.responseModels.SubscriptionsWithCourses;
 import model.subscription.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import sun.jvm.hotspot.runtime.posix.POSIXSignals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,11 +59,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     private String isActiveCourse(int courseId) throws ExecutionException, InterruptedException {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity=new HttpEntity(headers);
+
         CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
-                    return restTemplate.getForObject(uri, String.class);
+                    return restTemplate
+                            .exchange(uri, HttpMethod.GET,entity, String.class)
+                            .getBody();
                 }, () -> {
                     System.out.println("inside not found");
                     return "NOT-FOUND";
@@ -142,14 +154,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     private List<SubscriptionsWithCourses> getCourseByListOfId(List<Subscription> courseId)
             throws ExecutionException, InterruptedException {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity=new HttpEntity(courseId,headers);
 
         CommonHystrixCommand<SubscriptionsWithCourses[]> courseListHystrixCommand =
                 new CommonHystrixCommand<SubscriptionsWithCourses[]>
                         ("default", () ->
                         {
                             String uri = "http://localhost:8080/courses/?isSubscriptionList=true";
-                            return restTemplate.postForObject(uri, courseId,
-                                    SubscriptionsWithCourses[].class);
+                            return restTemplate.exchange(uri, HttpMethod.POST,entity,
+                                    SubscriptionsWithCourses[].class).getBody();
 
                         }, () ->
                         {
@@ -165,11 +181,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     private CoursesWithModule getCourseById(int courseId) throws ExecutionException, InterruptedException {
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Authorization", AccessToken.getAccessToken());
+
+        HttpEntity entity=new HttpEntity(courseId,headers);
+
         CommonHystrixCommand<CoursesWithModule> courseHystrixCommand =
                 new CommonHystrixCommand<CoursesWithModule>("default", () ->
                 {
                     String uri = "http://localhost:8080/courses/" + courseId;
-                    return restTemplate.getForObject(uri, CoursesWithModule.class);
+                    return restTemplate
+                            .exchange(uri,HttpMethod.GET,entity, CoursesWithModule.class)
+                            .getBody();
                 }, () -> {
                     return new CoursesWithModule();
                 });

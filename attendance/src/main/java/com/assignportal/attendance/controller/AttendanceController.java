@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class AttendanceController {
         @RequestBody attendance
      */
     @PostMapping(value = "/attendances")
+    @PreAuthorize("hasAuthority('create_attendance')")
     public Attendance saveAttendance(@RequestBody Attendance attendance)
             throws ExecutionException, InterruptedException {
         Attendance save = attendanceService.save(attendance,"save");
@@ -38,6 +40,7 @@ public class AttendanceController {
         @RequestBody list ofattendance
      */
     @PostMapping(value = "/attendances",params = "isList")
+    @PreAuthorize("hasAuthority('create_attendance')")
     public List<Attendance> saveAttendanceAsList(@RequestParam(value = "isList")boolean list,
                                      @RequestBody List<Attendance> attendance)
             throws ExecutionException, InterruptedException {
@@ -52,6 +55,7 @@ public class AttendanceController {
         @RequestBody attendance
      */
     @PutMapping(value = "/attendances/{studentName}/{courseId}/{attendingDate}")
+    @PreAuthorize("hasAuthority('update_attendance')")
     public Attendance updateAttendance(@PathVariable String studentName,@PathVariable int courseId,
                                        @PathVariable String attendingDate, @RequestBody Attendance attendance)
             throws ExecutionException, InterruptedException {
@@ -64,6 +68,7 @@ public class AttendanceController {
        @PathVariable attendanceId
     */
     @DeleteMapping(value = "/attendances/{studentName}/{courseId}/{attendingDate}")
+    @PreAuthorize("hasAuthority('delete_attendance')")
     public ResponseEntity<String> deleteAttendance(@PathVariable String studentName,@PathVariable int courseId,
                                                    @PathVariable String attendingDate) {
         try {
@@ -81,6 +86,7 @@ public class AttendanceController {
        Endpoint to Get All attendance
     */
     @GetMapping(value = "/attendances")
+    @PreAuthorize("hasAuthority('read_attendance')")
     public List<Attendance> getAllAttendance() {
         return attendanceService.getAllAttendances();
     }
@@ -90,6 +96,7 @@ public class AttendanceController {
         @PathVariable attendanceId
      */
     @GetMapping(value = "/attendances/{studentName}/{courseId}/{attendingDate}")
+    @PreAuthorize("hasAuthority('read_attendance')")
     public ResponseEntity<AttendanceWithCourse> getAttendanceById(@PathVariable String studentName,
                                                                   @PathVariable int courseId,
                                                                   @PathVariable String attendingDate)
@@ -108,6 +115,7 @@ public class AttendanceController {
         @RequestParam studentName
      */
     @GetMapping(value = "/attendances", params = "studentName")
+    @PreAuthorize("hasAuthority('read_attendance')")
     public ResponseEntity<List<AttendanceWithCourse>> getAllAttendanceByStudentId(
             @RequestParam String studentName) throws ExecutionException, InterruptedException {
 
@@ -126,6 +134,7 @@ public class AttendanceController {
         @RequestParam courseId
      */
     @GetMapping(value = "/attendances", params = "courseId")
+    @PreAuthorize("hasAuthority('read_attendance')")
     public ResponseEntity<CourseWithAttendanceList> getAllAttendanceByCourseId(@RequestParam int courseId)
             throws ExecutionException, InterruptedException {
 

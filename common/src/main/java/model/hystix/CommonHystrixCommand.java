@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 public class CommonHystrixCommand<T> extends HystrixCommand<T> {
 
-    Supplier<T> execute;
-    Supplier<T> fallback;
+    private Supplier<T> execute;
+    private Supplier<T> fallback;
 
     public CommonHystrixCommand(String group, Supplier<T> execute) {
         super(HystrixCommandGroupKey.Factory.asKey(group));

@@ -1,4 +1,4 @@
-package com.assignportal.authorizationserver.model;
+package model.auth;
 
 
 import lombok.Data;
