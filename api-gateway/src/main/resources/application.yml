@@ -47,6 +47,6 @@ spring:
               - Path=/submissions/**
 
         - id: stakeholder
-            uri: lb://stakeholder
-            predicates:
+          uri: lb://stakeholder
+          predicates:
               - Path=/register/**
