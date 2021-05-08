@@ -76,7 +76,7 @@ public class CourseServiceImpl implements CourseService {
                 ("default", () ->
                 {
 
-                    String uri = "http://localhost:8080/modules/course/" + id;
+                    String uri = "http://localhost:8080/api/modules/course/" + id;
                     restTemplate.exchange(uri, HttpMethod.DELETE,entity,String.class);
                     return "done";
                 }, () -> {
@@ -112,7 +112,7 @@ public class CourseServiceImpl implements CourseService {
                         () -> {
 
                     HttpEntity entity=new HttpEntity(headers);
-                            String uri = "http://localhost:8080/modules?courseId=" + id;
+                            String uri = "http://localhost:8080/api/modules?courseId=" + id;
                             return restTemplate
                                     .exchange(uri,HttpMethod.GET,entity, List.class)
                                     .getBody();
@@ -138,7 +138,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getAllCoursesByTutor(String tutorName) {
         System.out.println(tutorName);
-        return courseRepository.findByTutorNameAndIsActiveTrue(tutorName);
+        return courseRepository.findByTutorName(tutorName);
     }
 
     @Override
@@ -148,11 +148,19 @@ public class CourseServiceImpl implements CourseService {
         List<SubscriptionsWithCourses> collect = new ArrayList<>();
 
         for (Subscription subscription : subscriptionList) {
+            Optional<Course> id = courseRepository.findById(subscription.getCourseId());
+            CoursesWithModule byId;
+            if(id.isPresent()){
+                byId =new CoursesWithModule(id.get(), null);
+            }else {
+                byId = new CoursesWithModule(null, null);
+            }
+
             SubscriptionsWithCourses subscriptionsWithCourses =
-                    new SubscriptionsWithCourses(getCourseById(subscription.getCourseId()), subscription);
+                    new SubscriptionsWithCourses(byId, subscription);
             collect.add(subscriptionsWithCourses);
         }
-
+        System.out.println(collect);
         return collect;
     }
 

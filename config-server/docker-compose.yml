@@ -1,0 +1,23 @@
+version: "3"
+services:
+  config-server:
+    container_name: config-server
+    image: config-server
+    restart: always
+    ports:
+      - "8191:8191"
+    networks:
+      - assignPortal
+  service-discovery:
+    container_name: service-discovery
+    image: service-discovery
+    restart: always
+    ports:
+      - "8761:8761"
+    networks:
+      - assignPortal
+    depends_on:
+      - "config-server"
+
+networks:
+  assignPortal:

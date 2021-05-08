@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import sun.jvm.hotspot.runtime.posix.POSIXSignals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,9 +66,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
+                    String uri = "http://localhost:8080/api/courses/" + courseId + "/isActive";
                     return restTemplate
-                            .exchange(uri, HttpMethod.GET,entity, String.class)
+                            .exchange(uri, HttpMethod.GET, entity, String.class)
                             .getBody();
                 }, () -> {
                     System.out.println("inside not found");
@@ -156,6 +155,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throws ExecutionException, InterruptedException {
         HttpHeaders headers=new HttpHeaders();
         headers.add("Authorization", AccessToken.getAccessToken());
+        headers.add("Content-Type","application/json");
 
         HttpEntity entity=new HttpEntity(courseId,headers);
 
@@ -163,12 +163,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 new CommonHystrixCommand<SubscriptionsWithCourses[]>
                         ("default", () ->
                         {
-                            String uri = "http://localhost:8080/courses/?isSubscriptionList=true";
-                            return restTemplate.exchange(uri, HttpMethod.POST,entity,
+                            String uri = "http://localhost:8080/api/courses/?isSubscriptionList=true";
+                            return restTemplate.exchange(uri, HttpMethod.POST, entity,
                                     SubscriptionsWithCourses[].class).getBody();
 
                         }, () ->
                         {
+                            System.out.println("error");
                             return courseId
                                     .stream()
                                     .map(subscription -> new SubscriptionsWithCourses
@@ -189,7 +190,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         CommonHystrixCommand<CoursesWithModule> courseHystrixCommand =
                 new CommonHystrixCommand<CoursesWithModule>("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/" + courseId;
+                    String uri = "http://localhost:8080/api/courses/" + courseId;
                     return restTemplate
                             .exchange(uri,HttpMethod.GET,entity, CoursesWithModule.class)
                             .getBody();

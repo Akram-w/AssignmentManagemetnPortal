@@ -24,4 +24,8 @@ public interface AttendanceService {
     CourseWithAttendanceList getAttendanceByCourseId(int courseId) throws ExecutionException, InterruptedException;
 
     List<Attendance> saveList(List<Attendance> attendance);
+
+    List<String> getDistinctDates(int courseId);
+
+    List <Attendance> getAttendanceByDateAndCourse(String date,int courseId);
 }

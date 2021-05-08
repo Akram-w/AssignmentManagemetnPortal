@@ -29,12 +29,15 @@ public class RegisterServiceImpl implements RegisterService {
         //user.setTypeStatus(true) means student false means tutor
         if(type.equalsIgnoreCase("student")){
             user.setTypeStatus(true);
+        }else{
+            user.setTypeStatus(false);
         }
         String bcryptPassword = bcryptPassword(user.getPassword());
-        user.setPassword(bcryptPassword);
+        user.setPassword("{bcrypt}"+bcryptPassword);
         User savedUser = userRepository.save(user);
         RoleUser roleUser = new RoleUser(roleId, user.getId());
-        userRoleRepository.save(roleUser);
+        RoleUser save = userRoleRepository.save(roleUser);
+        savedUser.setPassword(null);
         return savedUser;
     }
 
@@ -46,8 +49,24 @@ public class RegisterServiceImpl implements RegisterService {
     public User update(int id, User user) {
         user.setId(id);
         String bcryptPassword = bcryptPassword(user.getPassword());
-        user.setPassword(bcryptPassword);
-        return userRepository.save(user);
+        user.setPassword("{bcrypt}"+bcryptPassword);
+        User updated = userRepository.save(user);
+        updated.setPassword(null);
+        return updated;
+    }
+
+    @Override
+    public User changePassword(String password, String name) {
+        Optional<User> byUsername = userRepository.findByUsername(name);
+        if(byUsername.isPresent()){
+            User user = byUsername.get();
+            String bcryptPassword = bcryptPassword(password);
+            user.setPassword("{bcrypt}"+bcryptPassword);
+            User updated = userRepository.save(user);
+            updated.setPassword(null);
+            return updated;
+        }
+        return null;
     }
 
     @Override
@@ -76,8 +95,21 @@ public class RegisterServiceImpl implements RegisterService {
         Optional<User> byId = userRepository.findById(userId);
         if(byId.isPresent()){
             RoleUser byUserId = userRoleRepository.findByUserId(userId);
+            User user = byId.get();
+            user.setPassword(null);
+            return new RegisterUserModel(user,getRoleName(byUserId.getRoleId()));
+        }
+        return null;
+    }
 
-            return new RegisterUserModel(byId.get(),getRoleName(byUserId.getRoleId()));
+    @Override
+    public RegisterUserModel getUserByUserName(String userName) {
+        Optional<User> byId = userRepository.findByUsername(userName);
+        if(byId.isPresent()){
+            User user = byId.get();
+            RoleUser byUserId = userRoleRepository.findByUserId(user.getId());
+            user.setPassword(null);
+            return new RegisterUserModel(user,getRoleName(byUserId.getRoleId()));
         }
         return null;
     }
@@ -89,6 +121,7 @@ public class RegisterServiceImpl implements RegisterService {
         List<User> temp=new ArrayList<>();
 
         for (User user:byInstituteName){
+            user.setPassword(null);
             if(type.equalsIgnoreCase("student")){
                 if(user.isTypeStatus()){
                     temp.add(user);
@@ -99,8 +132,9 @@ public class RegisterServiceImpl implements RegisterService {
                         temp.add(user);
                     }
                 }
+            }else {
+                throw new RoleMismatch("Couldn't find given role");
             }
-            throw new RoleMismatch("Couldn't find given role");
         }
         return temp;
     }

@@ -9,44 +9,49 @@ spring:
         - id: oAuth
           uri: lb://oAuth
           predicates:
-           - Path= /oauth/**
+           - Path=/api/oauth/**
 
         - id: course
           uri: lb://course
           predicates:
-           - Path=/courses/**
+           - Path=/api/courses/**
 
         - id: module
           uri: lb://module
           predicates:
-            - Path=/modules/**
+            - Path=/api/modules/**
 
         - id: subscription
           uri: lb://subscription
           predicates:
-            - Path=/subscriptions/**
+            - Path=/api/subscriptions/**
 
         - id: schedule
           uri: lb://schedule
           predicates:
-              - Path=/schedules/**
+              - Path=/api/schedules/**
 
         - id: attendance
           uri: lb://attendance
           predicates:
-              - Path=/attendances/**
+              - Path=/api/attendances/**
 
         - id: assessment
           uri: lb://assessment
           predicates:
-              - Path=/assessments/**
+              - Path=/api/assessments/**
 
         - id: submission
           uri: lb://submission
           predicates:
-              - Path=/submissions/**
+              - Path=/api/submissions/**
 
         - id: stakeholder
           uri: lb://stakeholder
           predicates:
-              - Path=/register/**
+              - Path=/api/register/**
+
+#        - id: ui
+#          uri: http://localhost:3000
+#          predicates:
+#            - Path=/ui/**

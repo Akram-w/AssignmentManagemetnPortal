@@ -73,7 +73,7 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
 
     private String getAttendanceCustomDate(String attendingDate) {
         ZonedDateTime date = ZonedDateTime.parse(attendingDate);
-        LocalDate now = date.toLocalDate();
+        LocalDate now = LocalDate.now(date.getZone());
         return now.toString();
     }
 
@@ -98,7 +98,7 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
         CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
+                    String uri = "http://localhost:8080/api/courses/" + courseId + "/isActive";
                     return restTemplate
                             .exchange(uri, HttpMethod.GET, entity, String.class)
                             .getBody();
@@ -138,6 +138,21 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
     }
 
     @Override
+    public List<String> getDistinctDates(int courseId) {
+        List<Attendance> dates =
+                repository.findDistinctAttendanceIdAttendingDateByAttendanceIdCourseId(courseId);
+        System.out.println(dates);
+        return dates.stream().map(attendance -> attendance
+                .getAttendanceId().getAttendingDate())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByDateAndCourse(String date, int courseId) {
+        return repository.findByAttendanceIdAttendingDateAndAttendanceIdCourseId(date,courseId);
+    }
+
+    @Override
     public AttendanceWithCourse getAttendanceById(AttendanceId attendanceId)
             throws ExecutionException, InterruptedException {
         String now = getAttendanceCustomDate(attendanceId.getAttendingDate());
@@ -160,7 +175,7 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
         CommonHystrixCommand<CoursesWithModule> courseByIdHystrixCommand =
                 new CommonHystrixCommand<CoursesWithModule>("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/" + courseId;
+                    String uri = "http://localhost:8080/api/courses/" + courseId;
                     return restTemplate
                             .exchange(uri,HttpMethod.GET,entity, CoursesWithModule.class)
                             .getBody();
@@ -216,7 +231,7 @@ public class AttendanceServiceImpl<id, list> implements AttendanceService {
         CommonHystrixCommand<Course[]> courseByIdHystrixCommand =
                 new CommonHystrixCommand<Course[]>("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/?isAttendance=true";
+                    String uri = "http://localhost:8080/api/courses/?isAttendance=true";
                     return restTemplate
                             .exchange(uri,HttpMethod.POST,entity, Course[].class)
                             .getBody();

@@ -17,4 +17,8 @@ public interface RegisterService {
     User updateStatus(int id, boolean status, String type);
 
     List<User> getUsersListByInstitute(String name, String type);
+
+    RegisterUserModel getUserByUserName(String userName);
+
+    User changePassword(String password, String name);
 }

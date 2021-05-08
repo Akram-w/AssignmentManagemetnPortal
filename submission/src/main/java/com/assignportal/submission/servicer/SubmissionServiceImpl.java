@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     public Submission save(MultipartFile file, Submission submission)
             throws IOException, ExecutionException, InterruptedException {
         if (!(file.isEmpty())) {
-            String dateFormat = checkDateFormat(submission.getSubmissionDate());
+            String dateFormat = getDate(submission.getSubmissionDate());
             Boolean deadLine = checkDeadLine(dateFormat, submission.getAssessmentId());
             if (deadLine) {
                 String fileName = upload(file, submission);
@@ -166,7 +167,11 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         return file.getOriginalFilename();
     }
-
+    private String getDate(String attendingDate) {
+        ZonedDateTime date = ZonedDateTime.parse(attendingDate);
+        LocalDate now = LocalDate.now(date.getZone());
+        return now.toString();
+    }
     private String checkDateFormat(String date) {
         String[] ts = date.split("T");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -183,7 +188,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         CommonHystrixCommand<Boolean> deadLineHystrix = new CommonHystrixCommand<Boolean>("default",
                 () -> {
-                    String uri = "http://localhost:8080/assessments/" + assessmentId + "?submittingDate=" + submissionDate;
+                    String uri = "http://localhost:8080/api/assessments/" + assessmentId + "?submittingDate=" + submissionDate;
                     return restTemplate
                             .exchange(uri, HttpMethod.GET,entity, boolean.class)
                             .getBody();

@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-    List<Course> findByTutorNameAndIsActiveTrue(String tutorName);
     List<Course> findByIdIn(List<Integer> idList);
     Optional<Course> findByTutorNameAndCourseName(String tutorName, String courseName);
+    List<Course> findByTutorNameAndIsActiveTrue(String tutorName);
+    List<Course> findByTutorName(String tutorName);
 }

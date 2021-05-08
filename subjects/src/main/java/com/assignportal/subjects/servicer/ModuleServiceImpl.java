@@ -57,7 +57,7 @@ public class ModuleServiceImpl implements ModuleService {
                 {
 
 
-                    String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
+                    String uri = "http://localhost:8080/api/courses/" + courseId + "/isActive";
                     return restTemplate
                             .exchange(uri, HttpMethod.GET,entity, String.class)
                             .getBody();

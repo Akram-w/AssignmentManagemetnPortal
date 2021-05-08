@@ -30,7 +30,7 @@ public class SubscriptionController {
     public Subscription saveSubscription(@RequestBody Subscription subscription)
             throws ExecutionException, InterruptedException {
 
-        subscription.setAccepted(false);
+
         subscription.setBanned(false);
         Subscription save = subscriptionService.save(subscription, "save");
 
@@ -142,7 +142,9 @@ public class SubscriptionController {
             @RequestParam(value = "studentName") String name)
             throws ExecutionException, InterruptedException {
 
-        return subscriptionService.getAllSubscriptionsByStudentName(name);
+        List<SubscriptionsWithCourses> list = subscriptionService.getAllSubscriptionsByStudentName(name);
+        System.out.println(list);
+        return list;
     }
 
     /*
@@ -193,7 +195,9 @@ public class SubscriptionController {
     @PreAuthorize("hasAuthority('read_subscription')")
     public CourseWithSubscriptionList getAllSubscriptionsByCourseId(@RequestParam(value = "courseId") int id)
             throws ExecutionException, InterruptedException {
-        return subscriptionService.getAllSubscriptionsByCourseId(id);
+        CourseWithSubscriptionList list = subscriptionService.getAllSubscriptionsByCourseId(id);
+        System.out.println(list);
+        return list;
     }
 
     /*

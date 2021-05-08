@@ -114,10 +114,7 @@ VALUES ('mobile', '{bcrypt}$2a$10$gPhlXZfms0EpNHX0.HHptOhoFD1AoxSr/yUIdTqA8vtjeP
      (26,1), /* read admin */
      (27,1), /* update admin */
      (28,3), /* delete admin */
-     (25,2), /* create student */
      (26,2), /* read student */
-     (27,2), /* update student */
-     (28,2), /* delete student */
 
 -- profile permission_role
      (30,3), /* read tutor */
@@ -128,19 +125,24 @@ VALUES ('mobile', '{bcrypt}$2a$10$gPhlXZfms0EpNHX0.HHptOhoFD1AoxSr/yUIdTqA8vtjeP
      (30,2), /* read student */
      (31,2); /* update student */
 
-insert IGNORE into user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('1', 'krish','{bcrypt}$2a$10$ODGwrk2ufy5d7T6afmACwOA/6j6rvXiP5amAMt1YjOQSdEw44QdqG', 'k@krishantha.com', '1', '1', '1', '1');
- insert IGNORE into  user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('2', 'suranga', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','k@krishantha.com', '1', '1', '1', '1');
- insert IGNORE into  user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('3', 'nuwan', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','k@krishantha.com', '1', '1', '1', '1');
+--insert IGNORE into user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('1', 'krish','{bcrypt}$2a$10$ODGwrk2ufy5d7T6afmACwOA/6j6rvXiP5amAMt1YjOQSdEw44QdqG', 'k@krishantha.com', '1', '1', '1', '1');
+-- insert IGNORE into  user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('2', 'suranga', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','k@krishantha.com', '1', '1', '1', '1');
+-- insert IGNORE into  user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES ('3', 'nuwan', '{bcrypt}$2a$10$wQ8vZl3Zm3.zDSIcZEYym.bGq3fPMJXH9k.Vhudcfr6O6KQwDPSt6','k@krishantha.com', '1', '1', '1', '1');
 /*
  passowrds:
  krish - kpass
  suranga - spass
  nuwan - spass
+ nirodha - 123
+ javaIns - jpass123
+ icbt- ipass123
  */
 
+--
+--INSERT IGNORE INTO ROLE_USER (ID,ROLE_ID, USER_ID)
+--    VALUES
+--    (1, 1), /* krish-admin */
+--    (2, 2), /* suranga-student */
+--    (3, 3); /* nuwan-tutor */
 
-INSERT IGNORE INTO ROLE_USER (ROLE_ID, USER_ID)
-    VALUES
-    (1, 1), /* krish-admin */
-    (2, 2), /* suranga-student */
-    (3, 3); /* nuwan-tutor */
+INSERT IGNORE INTO hibernate_sequence (next_val)VALUES(4)

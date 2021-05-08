@@ -92,6 +92,24 @@ public class AttendanceController {
     }
 
     /*
+        Endpoint to get all distinct dates
+     */
+    @GetMapping(value = "/attendances/dates",params = "courseId")
+    @PreAuthorize("hasAuthority('read_attendance')")
+    public List<String> getDistinctDated(@RequestParam int courseId){
+        return attendanceService.getDistinctDates(courseId);
+    }
+    /*
+        Endpoint to get all attendance by course id and date
+     */
+    @GetMapping(value = "/attendances",params ={"courseId","date"})
+    @PreAuthorize("hasAuthority('read_attendance')")
+    public List<Attendance> getAttendanceByDateAndCourseId(@RequestParam(value = "courseId") int courseId,
+                                                       @RequestParam(value = "date")String date){
+        return attendanceService.getAttendanceByDateAndCourse(date,courseId);
+    }
+    //create get endpoint with date and couseid and date to get all attendances
+    /*
         Endpoint to get attendance by id
         @PathVariable attendanceId
      */

@@ -1,5 +1,6 @@
 package com.assignportal.stakeholder.exceptions;
 
+import model.exception.RoleMismatch;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +16,7 @@ import java.util.Map;
 @ControllerAdvice
 public class ControlAdvisor extends ResponseEntityExceptionHandler {
 
+
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<Object> handleCourseNotActive(
             RoleNotFoundException courseNotActive, WebRequest request){
@@ -24,7 +26,15 @@ public class ControlAdvisor extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
     }
+    @ExceptionHandler(RoleMismatch.class)
+    public ResponseEntity<Object> handleCourseNotActive(
+            RoleMismatch courseNotActive, WebRequest request){
+        Map<String,Object> body=new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", courseNotActive.getMessage());
 
+        return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
+    }
 //    @ExceptionHandler(CourseNotExists.class)
 //    public ResponseEntity<Object> handleCourseNotExists(
 //            CourseNotExists courseNotExists, WebRequest request){

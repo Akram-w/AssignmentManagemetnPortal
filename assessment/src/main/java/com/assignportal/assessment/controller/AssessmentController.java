@@ -47,8 +47,10 @@ public class AssessmentController {
     public ResponseEntity downloadAssessment(@PathVariable int id) throws FileNotFoundException {
         URL download = assessmentService.download(id);
         if (download != null) {
-            return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
-                    .header(HttpHeaders.LOCATION, download.toString()).build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.LOCATION,download.toString());
+            headers.add("Access-Control-Allow-Origin","https://storage.googleapis.com/");
+            return ResponseEntity.status(HttpStatus.OK).body(download.toString());
         }
         return null;
     }

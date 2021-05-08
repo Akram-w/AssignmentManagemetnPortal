@@ -74,7 +74,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         CommonHystrixCommand<String> statusHystrixCommand = new CommonHystrixCommand<String>
                 ("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/" + courseId + "/isActive";
+                    String uri = "http://localhost:8080/api/courses/" + courseId + "/isActive";
                     return restTemplate
                             .exchange(uri, HttpMethod.GET,entity, String.class)
                             .getBody();
@@ -124,7 +124,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         CommonHystrixCommand<CoursesWithModule> courseHystrixCommand =
                 new CommonHystrixCommand<CoursesWithModule>("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/" + courseId;
+                    String uri = "http://localhost:8080/api/courses/" + courseId;
                     return restTemplate
                             .exchange(uri,HttpMethod.GET,entity, CoursesWithModule.class)
                             .getBody();
@@ -164,7 +164,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         CommonHystrixCommand<SubscriptionsWithCourses[]> courseHystrixCommand =
                 new CommonHystrixCommand<SubscriptionsWithCourses[]>("default", () ->
                 {
-                    String uri = "http://localhost:8080/subscriptions/?studentName=" + name;
+                    String uri = "http://localhost:8080/api/subscriptions/?studentName=" + name;
                     return restTemplate
                             .exchange(uri,HttpMethod.GET,entity, SubscriptionsWithCourses[].class)
                             .getBody();
@@ -210,7 +210,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         CommonHystrixCommand<Course[]> courseHystrixCommand =
                 new CommonHystrixCommand<Course[]>("default", () ->
                 {
-                    String uri = "http://localhost:8080/courses/?tutorName=" + name;
+                    String uri = "http://localhost:8080/api/courses/?tutorName=" + name;
                     return restTemplate
                             .exchange(uri,HttpMethod.GET,entity, Course[].class)
                             .getBody();

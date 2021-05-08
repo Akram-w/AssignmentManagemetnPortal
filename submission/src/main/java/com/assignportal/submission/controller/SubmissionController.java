@@ -49,8 +49,8 @@ public class SubmissionController {
     public ResponseEntity downloadSubmission(@PathVariable int id) throws FileNotFoundException {
         URL url=submissionService.download(id);
         if(url!=null){
-            return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
-                    .header(HttpHeaders.LOCATION,url.toString()).build();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(url.toString());
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("couldn't find given submission");
     }

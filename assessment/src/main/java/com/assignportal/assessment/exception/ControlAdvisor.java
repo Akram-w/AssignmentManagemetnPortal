@@ -46,7 +46,7 @@ public class ControlAdvisor extends ResponseEntityExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Given date not matched");
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
     }
     @ExceptionHandler(FileNotFoundException.class)
     public ResponseEntity<Object> handleAlreadyRegisteredToCourse(
